@@ -19,7 +19,6 @@ namespace Microsoft.Azure.ApiManagement.WsdlProcessor.App
             if (args.Length == 2)
             {
                 wsdlFile = args[0];
-                wsdlFile = wsdlFile.Contains(".wsdl") ? wsdlFile : wsdlFile + ".wsdl";
                 outputFile = args[1];
                 outputFile = Path.IsPathRooted(outputFile) ? outputFile : Path.Join(Directory.GetCurrentDirectory(), outputFile);
             }
@@ -30,7 +29,7 @@ namespace Microsoft.Azure.ApiManagement.WsdlProcessor.App
             }
             try
             {
-                var wsdlString = File.ReadAllText(wsdlFile);
+                var wsdlString = await WsdlDocument.GetStringDocumentFromUri(log, wsdlFile);
                 var xDocument = XDocument.Parse(wsdlString);
                 await WsdlDocument.LoadAsync(xDocument.Root, log);
                 xDocument.Root.Save(outputFile);
