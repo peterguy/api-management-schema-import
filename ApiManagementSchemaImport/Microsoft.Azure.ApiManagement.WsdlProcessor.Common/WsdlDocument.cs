@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------
+﻿    // --------------------------------------------------------------------------
 //  <copyright file="WsdlDocument.cs" company="Microsoft">
 //      Copyright (c) Microsoft Corporation. All rights reserved.
 //  </copyright>
@@ -277,7 +277,7 @@ namespace Microsoft.Azure.ApiManagement.WsdlProcessor.Common
                 schemasToProcess.Remove(import);
                 XmlSchema xmlSchema;
                 logger.Informational("XsdImportInclude", string.Format(CommonResources.XsdImport, import.SchemaLocation, import.TargetNamespace));
-                var schemaText = await GetStringDocumentFromUri(logger, Path.Join(import.SchemaDirectory, import.SchemaLocation));
+                var schemaText = await GetStringDocumentFromUri(logger, import.SchemaLocation);
                 xmlSchema = GetXmlSchema(schemaText);
                 var includesToRemove = new List<XmlSchemaExternal>();
                 var importsToAdd = new HashSet<string>();
@@ -375,7 +375,7 @@ namespace Microsoft.Azure.ApiManagement.WsdlProcessor.Common
         /// <param name="logger"></param>
         /// <param name="location"></param>
         /// <returns>string document</returns>
-        private static async Task<string> GetStringDocumentFromUri(ILog logger, string location)
+        public static async Task<string> GetStringDocumentFromUri(ILog logger, string location)
         {
             string documentText;
             //We need to check if is URL or a File location
